@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+const location = "Asia/Tokyo"
+
 func main() {
 	flag.Parse()
 	args := flag.Args()
@@ -25,7 +27,8 @@ func getTime(args []string) (time.Time, error) {
 	}
 
 	format := "20060102150405"
-	t, err := time.Parse(format, args[0])
+	jst := time.FixedZone(location, 9*60*60)
+	t, err := time.ParseInLocation(format, args[0], jst)
 	if err != nil {
 		return time.Time{}, err
 	}
