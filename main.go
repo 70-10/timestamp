@@ -18,7 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(t.UnixNano() / 1000000)
+	fmt.Println(t.UnixNano() / int64(time.Millisecond))
 }
 
 func getTime(args []string) (time.Time, error) {
@@ -26,8 +26,12 @@ func getTime(args []string) (time.Time, error) {
 		return time.Now(), nil
 	}
 
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		return time.Time{}, err
+	}
+
 	format := "20060102150405"
-	jst := time.FixedZone(location, 9*60*60)
 	t, err := time.ParseInLocation(format, args[0], jst)
 	if err != nil {
 		return time.Time{}, err
