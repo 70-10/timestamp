@@ -26,13 +26,8 @@ func getTime(args []string) (time.Time, error) {
 		return time.Now(), nil
 	}
 
-	jst, err := time.LoadLocation("Asia/Tokyo")
-	if err != nil {
-		return time.Time{}, err
-	}
-
 	format := "20060102150405"
-	t, err := time.ParseInLocation(format, args[0], jst)
+	t, err := time.ParseInLocation(format, args[0], time.Local)
 	if err != nil {
 		return time.Time{}, err
 	}
